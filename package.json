@@ -1,0 +1,23 @@
+{
+  "name": "homebridge-insteonScene",
+  "version": "0.2.0",
+  "description": "Insteon HUB Scene plugin for homebridge: https://github.com/nfarina/homebridge",
+  "license": "",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  },
+  "author": {
+    "name": "Beno G. Sarfati"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bgottsch/homebridge-insteonScene.git"
+  },
+  "dependencies": {
+    "insteon-hub": "bgottsch/insteon-hub"
+  }
+}
