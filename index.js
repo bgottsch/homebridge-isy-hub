@@ -37,7 +37,12 @@ function InsteonScene(log, config, api) {
 	
 			var hub = new InsteonHub(self.username, self.password, self.clientID, self.host);
 			hub.getScenes(function(response) {
-		
+				
+				if (response == null) {
+					console.log("There was an error retrieving the scenes. Aborting...");
+					return;
+				}
+				
 				var result = response["SceneList"];
 		
 				for (var i in result) {
