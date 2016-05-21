@@ -1,6 +1,6 @@
 {
   "name": "homebridge-insteonScene",
-  "version": “0.2.1”,
+  "version": "0.2.1",
   "description": "Insteon HUB Scene plugin for homebridge: https://github.com/nfarina/homebridge",
   "license": "",
   "keywords": [
