@@ -12,7 +12,8 @@ The `black_list` parameter works exactly as the `window_scenes` parameter, but i
 
 1. Install [homebrige](https://github.com/nfarina/homebridge) using: `npm install -g homebridge`
 2. Install this plugin using: `npm install -g bgottsch/homebridge-insteonScene` (I still need to add this to npm)
-3. Update your configuration file as instructed below.
+3. Run `sudo chmod 777 /usr/local/lib/node_modules/homebridge-insteonScene/` to allow the plugin to create a token to store the Insteon API keys (I don't understand much of chmod, so if anyone has a better solution please create an issue)
+4. Update your configuration file as instructed below.
 
 # Usage:
 
