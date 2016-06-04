@@ -9,18 +9,18 @@ module.exports = function (oAccessory, oService, oCharacteristic, ouuid) {
 		Characteristic = oCharacteristic;
 		uuid = ouuid;
 
-		inherits(InsteonSceneAccessory, Accessory);
-		InsteonSceneAccessory.prototype.deviceGroup = "scenes";
-		InsteonSceneAccessory.prototype.getServices = getServices;
-		InsteonSceneAccessory.prototype.identify = identify;
-		InsteonSceneAccessory.prototype.logStateChange = logStateChange;
+		inherits(InsteonWindowAccessory, Accessory);
+		InsteonWindowAccessory.prototype.deviceGroup = "windows";
+		InsteonWindowAccessory.prototype.getServices = getServices;
+		InsteonWindowAccessory.prototype.identify = identify;
+		InsteonWindowAccessory.prototype.logStateChange = logStateChange;
 	
 	}
-	return InsteonSceneAccessory;
+	return InsteonWindowAccessory;
 };
-module.exports.InsteonSceneAccessory = InsteonSceneAccessory;
+module.exports.InsteonWindowAccessory = InsteonWindowAccessory;
 
-function InsteonSceneAccessory(platform, device) {
+function InsteonWindowAccessory(platform, device) {
 	
 	this.sceneId = device["SceneID"];
 	this.name = device["SceneName"];
@@ -29,16 +29,18 @@ function InsteonSceneAccessory(platform, device) {
 	this.debug = platform.debug;
 	
 	// init variables
-	this.powerState = false;
+	this.currentPosition = 100;
+	this.targetPosition = 100;
+	this.positionState = Characteristic.PositionState.STOPPED;
 	// end init vars
 	
-	var idKey = "hbdev:insteon:scene:" + this.deviceid;
+	var idKey = "hbdev:insteon:window:" + this.deviceid;
 	var id = uuid.generate(idKey);
 	
 	Accessory.call(this, this.name, id);
 	var self = this;
 	
-	this.addService(Service.Lightbulb);
+	this.addService(Service.WindowCovering);
 	
 	// AccessoryInformation characteristic
 	// Manufacturer characteristic
@@ -53,30 +55,49 @@ function InsteonSceneAccessory(platform, device) {
 	this.getService(Service.AccessoryInformation)
 		.setCharacteristic(Characteristic.SerialNumber, "Scene ID: " + self.sceneId);
 	
-	// Lightbulb Service
-	// On characteristic
-	this.getService(Service.Lightbulb)
-		.getCharacteristic(Characteristic.On)
+	// Window Covering Service
+	// Current Position characteristic
+	this.getService(Service.WindowCovering)
+		.getCharacteristic(Characteristic.CurrentPosition)
 		.on("get", function (callback) {
-			callback(null, self.powerState);
+			callback(null, self.currentPosition);
+		});
+	
+	// Target Position characteristic	
+	this.getService(Service.WindowCovering)
+		.getCharacteristic(Characteristic.TargetPosition)
+		.on("get", function (callback) {
+			callback(null, self.targetPosition);
 		})
 		.on("set", function (value, callback) {
 			callback();
 			
 			var insteonCommand;
-  	
-			if (value) {
-				insteonCommand = "on";
-				self.powerState = true;
-			}else{
+			
+			if (value < self.currentPosition) {
 				insteonCommand = "off";
-				self.powerState = false;
+				self.currentPosition = 0;
+				self.targetPosition = 0;
+			}
+			else if (value > self.currentPosition) {
+				insteonCommand = "on";
+				self.currentPosition = 100;
+				self.targetPosition = 100;
+			}else{
+				return;
 			}
 			
 			var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
 			hub.sendSceneAction(self.sceneId, insteonCommand, function(response) {
 				logStateChange(self);
 			});
+		});
+	
+	// Position State characteristic
+	this.getService(Service.WindowCovering)
+		.getCharacteristic(Characteristic.PositionState)
+		.on("get", function (callback) {
+			callback(null, self.positionState);
 		});
 }
 
@@ -89,5 +110,5 @@ function identify() {
 }
 
 function logStateChange(self) {
-	self.log("Changed status (name: %s, state: %s)", self.name, self.powerState);
+	self.log("Changed status (name: %s, target position: %s)", self.name, self.targetPosition);
 }

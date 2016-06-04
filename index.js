@@ -3,6 +3,7 @@ var InsteonHub = require('./lib/InsteonHub.js');
 var Service, Characteristic, Accessory, uuid;
 
 var InsteonSceneAccessory;
+var InsteonWindowAccessory;
 
 module.exports = function (homebridge) {
 	Service = homebridge.hap.Service;
@@ -11,6 +12,7 @@ module.exports = function (homebridge) {
 	uuid = homebridge.hap.uuid;
 
 	InsteonSceneAccessory = require('./accessories/scene.js')(Accessory, Service, Characteristic, uuid);
+	InsteonWindowAccessory = require('./accessories/window.js')(Accessory, Service, Characteristic, uuid);
 
 	homebridge.registerPlatform("homebridge-insteonScene", "InsteonScene", InsteonScenePlatform);
 };
@@ -25,7 +27,18 @@ function InsteonScenePlatform(log, config) {
 	this.password = config["password"];
 	this.clientID = config["client_id"];
 	this.host = config["host"];
-	this.blackList = config["black_list"];
+	
+	if (config["window_scenes"] != undefined) {
+		this.windowScenes = config["window_scenes"];
+	} else {
+		this.windowScenes = [];
+	}
+	
+	if (config["black_list"] != undefined) {
+		this.blackList = config["black_list"];
+	} else {
+		this.blackList = [];
+	}
 	
 	this.scenes = [];
 }
@@ -58,13 +71,34 @@ InsteonScenePlatform.prototype = {
 					}
 				}
 				
-				if (!shouldRemove) {
-					var accessory = undefined;
-					accessory = new InsteonSceneAccessory(self, obj);
+				var isWindow = false;
 				
-					if (accessory != undefined) {
-						self.log("Scene added (name: %s, ID: %s)", obj["SceneName"], obj["SceneID"]);
-						self.scenes.push(accessory);
+				for (var j in self.windowScenes) {
+					if (sceneList[i]["SceneID"] == self.windowScenes[j] || sceneList[i]["SceneName"] == self.windowScenes[j]) {
+						isWindow = true;
+					}
+				}
+				
+				if (!shouldRemove) {
+				
+					if (isWindow) {
+					
+						var accessory = undefined;
+						accessory = new InsteonWindowAccessory(self, obj);
+				
+						if (accessory != undefined) {
+							self.log("Window added (name: %s, ID: %s)", obj["SceneName"], obj["SceneID"]);
+							self.scenes.push(accessory);
+						}
+					} else {
+					
+						var accessory = undefined;
+						accessory = new InsteonSceneAccessory(self, obj);
+				
+						if (accessory != undefined) {
+							self.log("Scene added (name: %s, ID: %s)", obj["SceneName"], obj["SceneID"]);
+							self.scenes.push(accessory);
+						}
 					}
 				}
 			}

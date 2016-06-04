@@ -1,11 +1,17 @@
 # homebridge-insteonScene
 
-[homebrige](https://github.com/nfarina/homebridge) platform plugin for Insteon Hub Scenes
+[homebrige](https://github.com/nfarina/homebridge) platform plugin for Insteon Hub.
+
+This plugin interprets scenes and open/close modules. Each scene can be turned on or off. Each open/close module can be closed or opened.
+
+Open/close modules should be configures as scenes in Insteon (simply add the module to a scene), and they should be added to the `window_scenes` parameter. There you specify each item as window scene with its name or Scene ID. You can add as many as you want.
+
+The `black_list` parameter works exactly as the `window_scenes` parameter, but instead of adding a specific type, the exclude scenes. You can also add as many as you want.
 
 # Installation
 
 1. Install [homebrige](https://github.com/nfarina/homebridge) using: `npm install -g homebridge`
-2. Install this plugin using: `npm install -g bgottsch/homebridge-insteonScene`
+2. Install this plugin using: `npm install -g bgottsch/homebridge-insteonScene` (I still need to add this to npm)
 3. Update your configuration file as instructed below.
 
 # Usage:
@@ -23,6 +29,7 @@ Configuration sample:
     "username": "username",
     "password": "password",
     "client_id": "APIKey",
+	"window_scenes": ["scene_name", "scene_id"],
     "black_list": ["scene_name", "scene_id"],
     "host": "https://connect.insteon.com/"
   }
@@ -34,5 +41,6 @@ Fields:
 - username (required): Insteon account username (same as used to login into the Insteon App)
 - password (required): Insteon account password (same as used to login into the Insteon App)
 - client_id (required): The API Key provided by [Insteon](http://www.insteon.com/become-an-insteon-developer) (you will need to request an API Key for the plugin to work)
+- window_scenes (optional): A list of scenes which should be considered window covers for open/close modules
 - black_list (optional): A list of Scenes to be excluded (each item is a Scene. A scene can be recognized by it's name or ID)
 - host (optional): The Insteon Hub API's host address
