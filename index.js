@@ -1,226 +1,75 @@
-var InsteonHub = require('./node_modules/insteon-hub/lib/InsteonHub.js');
+var InsteonHub = require('./lib/InsteonHub.js');
 
-var Accessory, Service, Characteristic, UUIDGen;
+var Service, Characteristic, Accessory, uuid;
 
-module.exports = function(homebridge) {
-  
-  Accessory = homebridge.platformAccessory;
+var InsteonSceneAccessory;
 
-  Service = homebridge.hap.Service;
-  Characteristic = homebridge.hap.Characteristic;
-  UUIDGen = homebridge.hap.uuid;
-  
-  homebridge.registerPlatform("homebridge-insteonScene", "InsteonScene", InsteonScene, true);
-}
+module.exports = function (homebridge) {
+	Service = homebridge.hap.Service;
+	Characteristic = homebridge.hap.Characteristic;
+	Accessory = homebridge.hap.Accessory;
+	uuid = homebridge.hap.uuid;
 
-function InsteonScene(log, config, api) {
-	console.log("[InsteonScene] Platform - Initialising");
+	InsteonSceneAccessory = require('./accessories/scene.js')(Accessory, Service, Characteristic, uuid);
+
+	homebridge.registerPlatform("homebridge-insteonScene", "InsteonScene", InsteonScenePlatform);
+};
+
+function InsteonScenePlatform(log, config) {
+	
+	this.api = InsteonHub;
 	this.log = log;
-	this.config = config;
-	this.accessories = [];
-
+	this.debug = log.debug;
+	
 	this.username = config["username"];
 	this.password = config["password"];
 	this.clientID = config["client_id"];
 	this.host = config["host"];
+	this.blackList = config["black_list"];
 	
-	this.sceneList = [];
-	
-	var self = this;
-	
-  	if (api) {
+	this.scenes = [];
+}
 
-      	this.api = api;
+InsteonScenePlatform.prototype = {
+	accessories: function (callback) {
+		this.log("Fetching Insteon scenes...");
 
-      	this.api.on('didFinishLaunching', function() {
-        	console.log("[InsteonScene] Platform - DidFinishLaunching");
-	
-			var hub = new InsteonHub(self.username, self.password, self.clientID, self.host);
-			hub.getScenes(function(response) {
-				
-				if (response == null) {
-					console.log("There was an error retrieving the scenes. Aborting...");
-					return;
-				}
-				
-				var result = response["SceneList"];
+		var self = this;
+		this.scenes = [];
 		
-				for (var i in result) {
+		var hub = new InsteonHub(self.username, self.password, self.clientID, self.host);
+		hub.getScenes(function(response) {
 			
-					var obj = {"SceneID": result[i]["SceneID"],
-							 "SceneName": result[i]["SceneName"]
-							 };
+			if (response == null) {
+				self.log("There was an error retrieving the scenes. Aborting...");
+				return;
+			}
 			
-					self.sceneList.push(obj);
-				}
+			var sceneList = response["SceneList"];
 				
-				// remove scenes not found on hub
-				if (self.accessories.lenght != 0) {
-					
-					for (var i in self.accessories) {
-			
-						var accessory = self.accessories[i];
-						var shouldDelete = true;
-			
-						for (var j in self.sceneList) {
+			for (var i in sceneList) {
+				var obj = {"SceneID": sceneList[i]["SceneID"], "SceneName": sceneList[i]["SceneName"]};
 				
-							var scene = self.sceneList[j];
+				var shouldRemove = false;
 				
-							if (scene["SceneID"] == accessory.context.sceneId || scene["SceneName"] == accessory.context.sceneName) {
-								
-								shouldDelete = false;
-							}
-						}
-						
-						if (shouldDelete) {
-							
-							self.accessories.splice(i, 1);
-							self.removeAccessory(accessory);
-						}
+				for (var j in self.blackList) {
+					if (sceneList[i]["SceneID"] == self.blackList[j] || sceneList[i]["SceneName"] == self.blackList[j]) {
+						shouldRemove = true;
 					}
 				}
 				
-				// no scenes yet. adding all found
-				if (self.accessories.lenght == 0) {
-					
-					for (var i in self.sceneList) {
-					
-						self.addAccessory(self.sceneList[i]["SceneName"], self.sceneList[i]["SceneID"]);
+				if (!shouldRemove) {
+					var accessory = undefined;
+					accessory = new InsteonSceneAccessory(self, obj);
+				
+					if (accessory != undefined) {
+						self.log("Scene added (name: %s, ID: %s)", obj["SceneName"], obj["SceneID"]);
+						self.scenes.push(accessory);
 					}
 				}
-				// removing repeated scenes and adding non existing
-				else {
-					
-					for (var i in self.accessories) {
+			}
 			
-						var accessory = self.accessories[i];
-			
-						for (var j in self.sceneList) {
-				
-							var scene = self.sceneList[j];
-				
-							if (scene["SceneID"] == accessory.context.sceneId || scene["SceneName"] == accessory.context.sceneName) {
-								
-								self.sceneList.splice(j, 1);
-							}
-						}
-					}
-					
-					for (var i in self.sceneList) {
-					
-						self.addAccessory(self.sceneList[i]["SceneName"], self.sceneList[i]["SceneID"]);
-					}
-				}
-				
-			});
-        
-      	});
-  	}
-}
-
-InsteonScene.prototype.configureAccessory = function(accessory) {
-  	console.log("[InsteonScene] " + accessory.displayName + " - Accessory loaded");
-
-  	accessory.reachable = true;
-  	
-  	var state = 0;
-  
-  	accessory.on('identify', function(paired, callback) {
-   		console.log("[InsteonScene] " + accessory.displayName + " - Identify!");
-    	callback();
-  	});
-	
-	var self = this;
-	
-  	if (accessory.getService(Service.Lightbulb)) {
-    	accessory.getService(Service.Lightbulb)
-    	.getCharacteristic(Characteristic.On)
-      		.on('get', function(callback) {
-      			self.getPowerOn(self.state, accessory.context.sceneName, callback);
-  			})
-      		.on('set', function(value, callback) {
-      			self.state = value ? 1 : 0;
-    			self.setPowerOn(value, accessory.context.sceneId, accessory.context.sceneName, callback);
-  			});
-  	}
-
-  	this.accessories.push(accessory);
-}
-
-InsteonScene.prototype.addAccessory = function(accessoryName, sceneId) {
-  	var uuid;
-
-  	if (!accessoryName) {
-    	accessoryName = "Insteon Scene"
-  	}
-  
-  	console.log("[InsteonScene] Platform - Accessory added: " + accessoryName);
-
-  	uuid = UUIDGen.generate(accessoryName);
-
-  	var newAccessory = new Accessory(accessoryName, uuid);
-  	
-  	newAccessory.context.sceneId = sceneId;
-  	newAccessory.context.sceneName = accessoryName;
-  	
-  	newAccessory.on('identify', function(paired, callback) {
-    	console.log("[InsteonScene] " + accessoryName + " - Identify!");
-    	callback();
- 	});
-	
-	var self = this;
-	
-	var state = 0;
-	
-  	newAccessory.addService(Service.Lightbulb, accessoryName)
-  	.getCharacteristic(Characteristic.On)
-    	.on('get', function(callback) {
-      		self.getPowerOn(self.state, newAccessory.context.sceneName, callback);
-  		})
-    	.on('set', function(value, callback) {
-    		self.state = value ? 1 : 0;
-    		self.setPowerOn(value, newAccessory.context.sceneId, newAccessory.context.sceneName, callback);
-  		});
-
-  	this.accessories.push(newAccessory);
-  	this.api.registerPlatformAccessories("homebridge-insteonScene", "InsteonScene", [newAccessory]);
-}
-
-InsteonScene.prototype.removeAccessory = function(accessory) {
-  	console.log("[InsteonScene] Platform - Accessory removed: " + accessory.context.sceneName);
-  	this.api.unregisterPlatformAccessories("homebridge-insteonScene", "InsteonScene", [accessory]);
-}
-
-InsteonScene.prototype.getPowerOn = function(powerOn, deviceName, callback) {
-  	
-  	var state;
-  	
-  	if (powerOn) {
-  		state = "on";
-  	}else{
-  		state = "off";
-  	}
-  	
-  	console.log("[InsteonScene] " + deviceName + " - Getting power state: " + state);
-  	callback(null, state);
-}
-
-InsteonScene.prototype.setPowerOn = function(powerOn, sceneId, deviceName, callback) {
-	
-	var hub = new InsteonHub(this.username, this.password, this.clientID, this.host);
-  	
-  	var insteonCommand;
-  	
-  	if (powerOn) {
-  		insteonCommand = "on";
-  	}else{
-  		insteonCommand = "off";
-  	}
-  	
-	hub.sendSceneAction(sceneId, insteonCommand, function() {
-  		
-  		console.log("[InsteonScene] " + deviceName + " - Setting power state: " + insteonCommand);
-  		
-		callback(null);
-	});
-}
+			callback(self.scenes);
+		});
+	}
+};
