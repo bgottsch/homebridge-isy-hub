@@ -25,7 +25,7 @@ Configuration sample:
 "platforms": [
   {
     "platform" : "InsteonScene",
-    "name" : "InsteonScene",
+    "name" : "Insteon Scene",
     "username": "username",
     "password": "password",
     "client_id": "APIKey",
