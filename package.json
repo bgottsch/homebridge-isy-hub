@@ -18,6 +18,7 @@
     "url": "git://github.com/bgottsch/homebridge-insteonScene.git"
   },
   "dependencies": {
-    "xmlhttprequest": ">=1.8.0"
+    "xmlhttprequest": ">=1.8.0",
+    "insteon-hub": "git://github.com/bgottsch/insteon-hub.git"
   }
 }
