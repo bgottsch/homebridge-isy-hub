@@ -1,4 +1,4 @@
-var InsteonHub = require('./lib/InsteonHub.js');
+var InsteonHub = require('./node_modules/insteon-hub/lib/InsteonHub.js');
 
 var Service, Characteristic, Accessory, uuid;
 
