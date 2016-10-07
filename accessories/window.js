@@ -60,7 +60,17 @@ function InsteonWindowAccessory(platform, device) {
 	this.getService(Service.WindowCovering)
 		.getCharacteristic(Characteristic.CurrentPosition)
 		.on("get", function (callback) {
-			callback(null, self.currentPosition);
+			var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
+			hub.getSceneStatus(self.sceneId, function(response) {
+				
+				if (response == true) {
+					self.currentPosition = 100;
+				}else{
+					self.currentPosition = 0;
+				}
+				
+				callback(null, self.currentPosition);
+			});
 		});
 	
 	// Target Position characteristic	
@@ -97,7 +107,18 @@ function InsteonWindowAccessory(platform, device) {
 	this.getService(Service.WindowCovering)
 		.getCharacteristic(Characteristic.PositionState)
 		.on("get", function (callback) {
-			callback(null, self.positionState);
+		
+			var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
+			hub.getSceneStatus(self.sceneId, function(response) {
+				
+				if (response == true) {
+					self.positionState = true;
+				}else{
+					self.positionState = false;
+				}
+				
+				callback(null, self.positionState);
+			});
 		});
 }
 

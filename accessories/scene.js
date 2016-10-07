@@ -58,7 +58,18 @@ function InsteonSceneAccessory(platform, device) {
 	this.getService(Service.Lightbulb)
 		.getCharacteristic(Characteristic.On)
 		.on("get", function (callback) {
-			callback(null, self.powerState);
+			
+			var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
+			hub.getSceneStatus(self.sceneId, function(response) {
+				
+				if (response == true) {
+					self.powerState = true;
+				}else{
+					self.powerState = false;
+				}
+				
+				callback(null, self.powerState);
+			});
 		})
 		.on("set", function (value, callback) {
 			callback();
