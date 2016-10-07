@@ -49,7 +49,7 @@ function InsteonWindowAccessory(platform, device) {
 	
 	// Model characteristic	
 	this.getService(Service.AccessoryInformation)
-		.setCharacteristic(Characteristic.Model, "version 0.3.1");
+		.setCharacteristic(Characteristic.Model, "version 0.4.0");
 	
 	// SerialNumber characteristic
 	this.getService(Service.AccessoryInformation)
@@ -57,20 +57,32 @@ function InsteonWindowAccessory(platform, device) {
 	
 	// Window Covering Service
 	// Current Position characteristic
+	var refreshing = false;
 	this.getService(Service.WindowCovering)
 		.getCharacteristic(Characteristic.CurrentPosition)
 		.on("get", function (callback) {
-			var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
-			hub.getSceneStatus(self.sceneId, function(response) {
+		
+			if (refreshing == false) {
+				refreshing = true;
 				
-				if (response == true) {
-					self.currentPosition = 100;
-				}else{
-					self.currentPosition = 0;
-				}
+				var main = self;
 				
-				callback(null, self.currentPosition);
-			});
+				var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
+				hub.getSceneStatus(self.sceneId, function(response) {
+				
+					if (response == true) {
+						main.currentPosition = 100;
+						main.targetPosition = 100;
+					}else{
+						main.currentPosition = 0;
+						main.targetPosition = 0;
+					}
+				
+					refreshing = false;
+					
+					callback(null, main.currentPosition);
+				});
+			}
 		});
 	
 	// Target Position characteristic	
@@ -107,18 +119,7 @@ function InsteonWindowAccessory(platform, device) {
 	this.getService(Service.WindowCovering)
 		.getCharacteristic(Characteristic.PositionState)
 		.on("get", function (callback) {
-		
-			var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
-			hub.getSceneStatus(self.sceneId, function(response) {
-				
-				if (response == true) {
-					self.positionState = true;
-				}else{
-					self.positionState = false;
-				}
-				
-				callback(null, self.positionState);
-			});
+			callback(null, self.positionState);
 		});
 }
 
