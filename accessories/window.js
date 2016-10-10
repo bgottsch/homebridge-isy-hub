@@ -61,28 +61,31 @@ function InsteonWindowAccessory(platform, device) {
 	this.getService(Service.WindowCovering)
 		.getCharacteristic(Characteristic.CurrentPosition)
 		.on("get", function (callback) {
-		
-			if (refreshing == false) {
-				refreshing = true;
-				
-				var main = self;
-				
-				var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
-				hub.getSceneStatus(self.sceneId, function(response) {
-				
-					if (response == true) {
-						main.currentPosition = 100;
-						main.targetPosition = 100;
-					}else{
-						main.currentPosition = 0;
-						main.targetPosition = 0;
-					}
-				
-					refreshing = false;
-					
-					callback(null, main.currentPosition);
-				});
-			}
+			
+			callback(null, main.currentPosition);
+			
+			// not working
+			// if (refreshing == false) {
+// 				refreshing = true;
+// 				
+// 				var main = self;
+// 				
+// 				var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
+// 				hub.getSceneStatus(self.sceneId, function(response) {
+// 				
+// 					if (response == true) {
+// 						main.currentPosition = 100;
+// 						main.targetPosition = 100;
+// 					}else{
+// 						main.currentPosition = 0;
+// 						main.targetPosition = 0;
+// 					}
+// 				
+// 					refreshing = false;
+// 					
+// 					callback(null, main.currentPosition);
+// 				});
+// 			}
 		});
 	
 	// Target Position characteristic	

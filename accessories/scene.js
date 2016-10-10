@@ -60,24 +60,38 @@ function InsteonSceneAccessory(platform, device) {
 		.getCharacteristic(Characteristic.On)
 		.on("get", function (callback) {
 			
-			if (refreshing == false) {
-				refreshing = true;
-				
+			var refreshInterval = 60 * 1000; // in ms
+			var newTime = Date.now();
+			var lastTime = 0;
+			
+			if (newTime - lastTime < refreshInterval) {
+				// send saved state
+				callback(null, main.powerState);
+			}else{
+				// update state
 				var main = self;
 				
-				var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
-				hub.getSceneStatus(self.sceneId, function(response) {
+				// if not refreshing get current state
+				if (refreshing == false) {
+					refreshing = true;
 					
-					if (response == true) {
-						main.powerState = true;
-					}else{
-						main.powerState = false;
-					}
+					var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
+					hub.getSceneStatus(self.sceneId, function(response) {
 					
-					refreshing = false;
+						if (response == true) {
+							main.powerState = true;
+						}else{
+							main.powerState = false;
+						}
 					
+						refreshing = false;
+					
+						callback(null, main.powerState);
+					});
+				}else{
+					// send saved result when refreshing
 					callback(null, main.powerState);
-				});
+				}
 			}
 		})
 		.on("set", function (value, callback) {
