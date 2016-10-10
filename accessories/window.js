@@ -62,13 +62,13 @@ function InsteonWindowAccessory(platform, device) {
 		.getCharacteristic(Characteristic.CurrentPosition)
 		.on("get", function (callback) {
 			
+			var main = self;
+			
 			callback(null, main.currentPosition);
 			
 			// not working
 			// if (refreshing == false) {
 // 				refreshing = true;
-// 				
-// 				var main = self;
 // 				
 // 				var hub = new self.platform.api(self.platform.username, self.platform.password, self.platform.clientID, self.platform.host);
 // 				hub.getSceneStatus(self.sceneId, function(response) {
