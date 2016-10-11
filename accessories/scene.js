@@ -60,7 +60,7 @@ function InsteonSceneAccessory(platform, device) {
 		.getCharacteristic(Characteristic.On)
 		.on("get", function (callback) {
 			
-			var refreshInterval = 60 * 1000; // in ms
+			var refreshInterval = 60 * 1000; // in ms = 1 minute
 			var newTime = Date.now();
 			var lastTime = 0;
 			
@@ -85,7 +85,8 @@ function InsteonSceneAccessory(platform, device) {
 						}
 					
 						refreshing = false;
-					
+						
+						lastTime = Date.now();
 						callback(null, main.powerState);
 					});
 				}else{
