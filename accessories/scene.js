@@ -63,7 +63,9 @@ function InsteonSceneAccessory(platform, device) {
 	this.getService(Service.Lightbulb)
 		.getCharacteristic(Characteristic.On)
 		.on("get", function (callback) {
-		
+			
+			var main = self;
+			
 			newTime = Date.now();
 			
 			if (newTime - lastTime < refreshInterval) {
@@ -71,8 +73,6 @@ function InsteonSceneAccessory(platform, device) {
 				callback(null, main.powerState);
 			}else{
 				// update state
-				var main = self;
-				
 				// if not refreshing get current state
 				if (refreshing == false) {
 					refreshing = true;
