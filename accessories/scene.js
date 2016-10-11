@@ -54,15 +54,17 @@ function InsteonSceneAccessory(platform, device) {
 		.setCharacteristic(Characteristic.SerialNumber, "Scene ID: " + self.sceneId);
 	
 	// Lightbulb Service
-	// On characteristic
+	// status variables
 	var refreshing = false;
+	var refreshInterval = 60 * 1000; // in ms = 1 minute
+	var newTime = 0;
+	var lastTime = 0;
+	// On characteristic
 	this.getService(Service.Lightbulb)
 		.getCharacteristic(Characteristic.On)
 		.on("get", function (callback) {
-			
-			var refreshInterval = 60 * 1000; // in ms = 1 minute
-			var newTime = Date.now();
-			var lastTime = 0;
+		
+			newTime = Date.now();
 			
 			if (newTime - lastTime < refreshInterval) {
 				// send saved state
