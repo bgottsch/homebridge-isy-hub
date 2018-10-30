@@ -1,24 +1,27 @@
 {
-  "name": "homebridge-insteonScene",
-  "version": "0.4.1",
-  "description": "Insteon Hub Scene plugin for homebridge: https://github.com/nfarina/homebridge",
-  "license": "",
-  "keywords": [
-    "homebridge-plugin"
-  ],
-  "engines": {
-    "node": ">=0.12.0",
-    "homebridge": ">=0.2.0"
-  },
-  "author": {
-    "name": "Beno G. Sarfati"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/bgottsch/homebridge-insteonScene.git"
-  },
-  "dependencies": {
-    "xmlhttprequest": ">=1.8.0",
-    "insteon-hub": "git://github.com/bgottsch/insteon-hub.git"
-  }
+	"name": "homebridge-isy994i",
+	"version": "0.5.0",
+	"description": "ISY-994i plugin for homebridge: https://github.com/nfarina/homebridge",
+	"license": "",
+	"keywords": [
+		"homebridge-plugin",
+		"ISY-994i",
+		"Insteon"
+	],
+	"engines": {
+		"node": ">=0.12.0",
+		"homebridge": ">=0.4.0"
+	},
+	"author": {
+		"name": "Beno G. Sarfati"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/bgottsch/homebridge-isy994i.git"
+	},
+	"dependencies": {
+		"request": "latest",
+		"request-promise": "latest",
+		"xml2js": "latest"
+	}
 }
