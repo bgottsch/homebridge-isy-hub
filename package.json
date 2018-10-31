@@ -1,6 +1,6 @@
 {
 	"name": "homebridge-isy994i",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"description": "ISY-994i plugin for homebridge: https://github.com/nfarina/homebridge",
 	"license": "",
 	"keywords": [
