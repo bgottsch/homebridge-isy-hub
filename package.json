@@ -1,6 +1,6 @@
 {
 	"name": "homebridge-isy994i",
-	"version": "0.5.1",
+	"version": "0.6.0",
 	"description": "ISY-994i plugin for homebridge: https://github.com/nfarina/homebridge",
 	"license": "",
 	"keywords": [
@@ -13,7 +13,7 @@
 		"homebridge": ">=0.4.0"
 	},
 	"author": {
-		"name": "Beno G. Sarfati"
+		"name": "bgottsch"
 	},
 	"repository": {
 		"type": "git",

@@ -1,0 +1,56 @@
+{
+    "pluginAlias": "ISY-994i",
+    "pluginType": "platform",
+    "singular": true,
+    "headerDisplay": "Homebridge plugin to control Sensibo Sky devices.",
+    "footerDisplay": "Created by bgottsch",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "description": "This name is only visible in the Homebridge logs.",
+          "type": "string",
+          "required": true,
+          "default": "Sensibo"
+        },
+        "api_key": {
+          "title": "API Key",
+          "description": "API Key retrieved from Sensibo portal.",
+          "type": "string",
+          "required": true,
+          "default": ""
+        },
+        "refresh_interval": {
+          "title": "Refresh Interval",
+          "description": "Refresh interval in milliseconds.",
+          "type": "integer",
+          "required": false,
+          "default": 30000
+        }
+      }
+    },
+    "layout": [
+      {
+        "type": "flex",
+        "flex-flow": "row wrap",
+        "items": [
+          {
+            "type": "flex",
+            "flex-flow": "column",
+            "items": ["name"]
+          },
+          {
+            "type": "flex",
+            "flex-flow": "column",
+            "items": ["api_key"]
+          },
+          {
+            "type": "flex",
+            "flex-flow": "column",
+            "items": ["refresh_interval"]
+          }
+        ]
+      }
+    ]
+  }

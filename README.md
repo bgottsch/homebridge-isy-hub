@@ -1,4 +1,4 @@
-# homebridge-insteonScene
+# homebridge-isy994i
 
 [homebrige](https://github.com/nfarina/homebridge) platform plugin for Insteon Hub.
 
