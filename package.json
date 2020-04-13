@@ -1,6 +1,6 @@
 {
 	"name": "homebridge-isy",
-	"version": "0.6.10",
+	"version": "0.6.27",
 	"description": "ISY-994i plugin for homebridge: https://github.com/nfarina/homebridge",
 	"license": "",
 	"keywords": [
@@ -22,6 +22,7 @@
 	"dependencies": {
 		"request": "latest",
 		"request-promise": "latest",
-		"xml2js": "latest"
+		"xml2js": "latest",
+		"ws": "latest"
 	}
 }
