@@ -1,0 +1,65 @@
+{
+    "bridge": {
+        "name": "Homebridge",
+        "username": "CC:22:3D:E3:CE:30",
+        "port": 51826,
+        "pin": "031-45-154"
+    },
+    "description": "This is an example configuration file.",
+    "platforms": [
+        {
+            "platform": "isy-hub",
+            "name": "isy-hub",
+            "username": "<USERNAME>",
+            "password": "<PASSWORD>",
+            "host": "<HOSTNAME|IP ADDRESS>",
+            "refresh_interval": 30000,
+            "reconnect_interval": 5000,
+            "heartbeat_interval": 30000,
+            "devices": [
+				{
+                    "name": "Micro Dimmer",
+                    "id": "AA 0C FF 1",
+                    "type": "micro_dimmer"
+                },
+				{
+                    "name": "Micro Open/Close",
+                    "id": "BB 11 CC 1",
+                    "type": "micro_open_close"
+                }
+			],
+            "scenes": [
+				{
+                    "name": "Lightbuld Scene",
+                    "id": 11111,
+                    "type": "lightbulb",
+                    "on_level": 100
+                },
+                {
+                    "name": "Dimmed Lightbuld Scene",
+                    "id": 22222,
+                    "type": "lightbulb",
+                    "on_level": 30
+                },
+				{
+                    "name": "Switch Scene",
+                    "id": 33333,
+                    "type": "switch",
+					"on_level": 100
+                },
+                {
+                    "name": "Dimmed Switch Scene",
+                    "id": 44444,
+                    "type": "switch",
+					"on_level": 30
+                },
+                {
+                    "name": "Window Cover Scene",
+                    "id": 5555,
+                    "type": "window_cover"
+                }
+            ]
+        }
+    ],
+    "accessories": []
+}
