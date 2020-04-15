@@ -4,7 +4,9 @@
 	"description": "ISY-994i plugin for homebridge: https://github.com/nfarina/homebridge",
 	"license": "",
 	"keywords": [
+		"homebridge",
 		"homebridge-plugin",
+		"isy",
 		"ISY-994i",
 		"Insteon"
 	],
@@ -17,7 +19,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/bgottsch/homebridge-isy994i.git"
+		"url": "git://github.com/bgottsch/homebridge-isy-hub.git"
 	},
 	"dependencies": {
 		"request": "latest",
