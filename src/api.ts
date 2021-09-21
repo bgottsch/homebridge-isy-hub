@@ -181,6 +181,7 @@ export class ISYHubApi extends EventEmitter {
 
 	private wsSetHeartbeatTimeout() {
 		this.wsHeartbeatTimeout = setTimeout(() => {
+			this.platform.log.debug('Heartbeat timeout');
 			this.terminateWebSocket(true);
 		}, this.heartbeatTimeout);
 	}
