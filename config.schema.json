@@ -1,0 +1,190 @@
+{
+	"pluginAlias": "ISY Hub",
+	"pluginType": "platform",
+	"singular": true,
+	"schema": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"title": "Name",
+				"type": "string",
+				"required": true,
+				"default": "ISY Hub",
+				"placeholder": "Name for the plugin (default is ISY Hub)"
+			},
+			"hostname": {
+				"title": "Hostname",
+				"type": "string",
+				"required": true,
+				"placeholder": "eg. 192.168.1.2",
+				"format": "hostname"
+			},
+			"login": {
+				"title": "Login",
+				"type": "string",
+				"required": true,
+				"placeholder": "eg. john"
+			},
+			"password": {
+				"title": "Password",
+				"type": "string",
+				"required": true,
+				"placeholder": "eg. mypassword"
+			},
+			"hidden_nodes": {
+				"title": "Hidden Node",
+				"description": "List of nodes to hide from HomeKit (devices or scenes).",
+				"type": "array",
+				"items": {
+					"type": "string"
+				}
+			},
+			"stateless_scenes": {
+				"title": "Stateless Scene",
+				"description": "List of scenes to become Stateless Programable Switches in HomeKit. If not listed, defaults to regular Switch.",
+				"type": "array",
+				"items": {
+					"type": "string"
+				}
+			},
+			"on_level_scenes": {
+				"title": "Scene ON Level",
+				"description": "Set custom ON level for scenes. Used to get status of a scene if it's ON level is dimmed (less than 255). Does not apply to Stateless Scenes. [use keyboard arrows to adjust slider if mouse fails]",
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"address": {
+							"title": "Address",
+							"type": "string"
+						},
+						"on_level": {
+							"title": "On Level",
+							"type": "integer",
+							"minimum": 1,
+							"maximum": 255
+						}
+					}
+				}
+			},
+			"refresh_interval": {
+				"title": "Refresh Interval",
+				"description": "Time in minutes to refresh all nodes via REST.",
+				"type": "integer",
+				"required": true,
+				"minimum": 1,
+				"default": 60,
+				"placeholder": "Time in minutes (leave blank to set default of 60 minutes)"
+			},
+			"reconnect_interval": {
+				"title": "Reconnect Interval",
+				"description": "Time in seconds to attempt a reconnect after the WebSocket termination.",
+				"type": "integer",
+				"required": true,
+				"minimum": 10,
+				"default": 30,
+				"placeholder": "Time in seconds (leave blank to set default of 30 seconds)"
+			},
+			"heartbeat_timeout": {
+				"title": "Heartbeat Timeout",
+				"description": "Time in seconds for the WebSocket's heatbeat. Terminates it and attempts a reconnect if no heartbeat if received in time.",
+				"type": "integer",
+				"required": true,
+				"minimum": 25,
+				"default": 30,
+				"placeholder": "Time in seconds (leave blank to set default of 30 seconds)"
+			},
+			"rest_timeout": {
+				"title": "REST Requests Timeout",
+				"description": "Time in seconds for REST requests. Request is canceled after timeout and next attemp will be triggered by Refresh Interval",
+				"type": "integer",
+				"required": true,
+				"minimum": 5,
+				"default": 10,
+				"placeholder": "Time in seconds (leave blank to set default of 10 seconds)"
+			}
+		}
+	},
+	"layout": [
+		"name",
+		{
+			"type": "div",
+			"displayFlex": true,
+			"flex-direction": "row",
+			"items": [
+				"hostname",
+				"login",
+				{
+					"key": "password",
+					"type": "password"
+				}
+			]
+		},
+		{
+			"title": "Optional Settings",
+			"type": "array",
+			"expandable": true,
+			"expanded": false,
+			"items": [
+				{
+					"key": "hidden_nodes",
+					"type": "array",
+					"expandable": true,
+					"expanded": false,
+					"items": {
+						"notitle": true,
+						"type": "string",
+						"placeholder": "device or scene address (eg. \"AA B2 CE 1\" or \"12345\")"
+					}
+				},
+				{
+					"key": "stateless_scenes",
+					"type": "array",
+					"expandable": true,
+					"expanded": false,
+					"items": {
+						"notitle": true,
+						"type": "string",
+						"placeholder": "scene address (eg. \"12345\")"
+					}
+				},
+				{
+					"key": "on_level_scenes",
+					"type": "array",
+					"expandable": true,
+					"expanded": false,
+					"items": [
+						{
+							"type": "div",
+							"displayFlex": true,
+							"flex-direction": "row",
+							"items": [
+								{
+									"key": "on_level_scenes[].address",
+									"notitle": true,
+									"placeholder": "scene address (eg. \"12345\")"
+								},
+								{
+									"key": "on_level_scenes[].on_level",
+									"notitle": true
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"title": "Advanced Settings",
+			"type": "array",
+			"expandable": true,
+			"expanded": false,
+			"items": [
+				"refresh_interval",
+				"reconnect_interval",
+				"heartbeat_timeout",
+				"rest_timeout"
+			]
+		}
+	]
+}
