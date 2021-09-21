@@ -8,12 +8,13 @@
 
 This plugin finds all `nodes` linked to the [ISY-994i](https://www.universal-devices.com/product/isy994i/) hub and creates the corresponding HomeKit accessory. `nodes` are all **Insteon scenes** and **Insteon devices** paired to the hub, that are supported by this plugin (see table below).
 
-Changes to the [ISY-994i](https://www.universal-devices.com/product/isy994i/) `nodes`, such as adding, updating or removing, reflect automatically to HomeKit. Further more, optional features such as `stateless_scenes` can turn **Inteon KeyPads** into **Stateless Programable Switches**, allowing native control and automation of HomeKit using wall buttons.
+Changes to the [ISY-994i](https://www.universal-devices.com/product/isy994i/), such as adding, updating or removing `nodes`, replicate automatically to HomeKit. Further more, optional features such as `Stateless Scenes` can turn **Inteon KeyPads** into **Stateless Programable Switches**.
 
 ## Key Points
 
 - **Easy setup** - automatic discovery and management of `nodes` linked to [ISY-994i](https://www.universal-devices.com/product/isy994i/).
-- Scenes can act as **Programable Stateless Switches**. This allows **Insteon KeyPads** paired to that scene to act as buttons in HomeKit, for example. See below for details.
+- **Stateless Scenes** - scenes can act as **Programable Stateless Switches**. This allows **Insteon KeyPads** paired to that scene to act as buttons in HomeKit. See below for details.
+- **Scene ON Level** - allows the ON level of a scene to be changed from the default (255 or 100%). This is useful to detect the state of a scene.
 - Usage of the **REST API** for discovery and **WebSocket** for state change detection.
 - Requires correct setup of the Insteon network and [ISY-994i](https://www.universal-devices.com/product/isy994i/). Refer to [Insteon](https://www.insteon.com/) and [Universal Devices](https://www.universal-devices.com/) for more info.
 - Please note, this is an unofficial plugin. Some features might not work as expected. Please open an issue if found in such scenario.
@@ -48,7 +49,7 @@ Changes to the [ISY-994i](https://www.universal-devices.com/product/isy994i/) `n
 
 ## Configuration
 
-This plugin will **auto discover** `nodes` registered to ISY and that are **supported**.
+This plugin will **auto discover** `nodes` linked to the hub and that are **supported**.
 
 To configure if installing with [Homebridge Config UI X](https://github.com/oznu/homebridge-config-ui-x), a setup guide should appear on install. Follow the GUI instructions. For further customization of the advanced features, refer to the parameters definition below.
 
@@ -66,7 +67,7 @@ If configuring manually, below follows a **minimal** configuration sample with t
 ]
 ```
 
-This minimal configuration is enough for the plugin to work and to auto discover ```nodes```
+This minimal configuration is enough for the plugin to work and to auto discover `nodes`
 
 ### Parameters Definition
 
