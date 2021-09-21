@@ -78,11 +78,11 @@ This minimal configuration is enough for the plugin to work and to auto discover
 | password | yes | string |   | Password for the ISY-994i hub. |
 | hidden_nodes | no | list of strings |   | Used to specify which devices or scenes should<br/>be hidden from auto discovery. List of addresses<br/>as strings, even if address is numeric. |
 | stateless_scenes | no | list of strings |   | Used to specify which scenes become **Stateless<br/>Programable Switches** in HomeKit. If not specified, scene will default to regular **Switch**.<br/>List of addresses as strings, even if address is<br/>numeric. |
-| on_level_scenes | no | list of dicts |   | Used to specify the on level of a scene. Default for<br/>all scenes is 255 (100%). Only change if on level is<br/>different. List of dicts, each dict with keys:<br/>`address` - string, even if address is numeric<br/>`on_level` - numeric (number from 0-255). |
-| refresh_interval | no | integer | 60<br/>(min: 1) | Time in seconds for the plugin to fetch all `nodes`<br/>via REST API. |
-| reconnect_interval | no | integer | 30<br/>(min: 10) | Time in seconds for the plugin to attempt a<br/>reconnect if the WebSocket terminates. |
-| heartbeat_interval | no | integer | 30<br/>(min: 25) | Time in seconds for a heartbeat to be received<br/>from the WebSocket. If no heartbeat is received,<br/>plugin will attempt a reconnect. |
-| rest_timeout | no | integer | 10<br/>(min: 5) | Time in seconds for REST requests to timeout. |
+| on_level_scenes | no | list of dicts |   | Used to specify the on level of a scene. Default for<br/>all scenes is 255 (100%). Only change if on level is<br/>different. List of dicts, each dict with keys:<br/>> `address` - string, even if address is numeric.<br/>> `on_level` - numeric (number from 0-255). |
+| refresh_interval | no | integer | 60 | Time in seconds for the plugin to fetch all `nodes`<br/>via REST API.<br/>(minimum: 1) |
+| reconnect_interval | no | integer | 30 | Time in seconds for the plugin to attempt a<br/>reconnect if the WebSocket terminates.<br/>(minimum: 10) |
+| heartbeat_interval | no | integer | 30 | Time in seconds for a heartbeat to be received<br/>from the WebSocket. If no heartbeat is received,<br/>plugin will attempt a reconnect.<br/>(minimum: 25) |
+| rest_timeout | no | integer | 10 | Time in seconds for REST requests to timeout.<br/>(minimum: 5) |
 
 ### Full Example
 
@@ -139,8 +139,20 @@ Allows `nodes` that are **Insteon Scenes** to adjust their ON level. By default,
 
 ### Refresh Interval
 
+Time in seconds for the plugin to refresh the devices via REST API. This is what enables the auto discovery. If WebSocket is closed, it is disabled, and renabled when open. Minimum of 1 second.
+
 ### Reconnect Interval
+
+Time in seconds for the plugin to attemp a reconnect of the WebSocket if it closes or exits with an error. Minimum of 10 seconds.
 
 ### Heartbeat Timeout
 
+Time in seconds for a heartbeat to be received from the WebSocket when it is open. If the timeout expires, a reconnect is imediatelly attempted. This is paired to what is emitted by the hub (wiht some margin), change with caution. Minimum of 25 seconds.
+
 ### REST Timeout
+
+Time in seconds for REST API requests to timeout. Minimum of 5 seconds.
+
+## License
+
+Apache 2.0
