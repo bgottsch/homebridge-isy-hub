@@ -51,7 +51,7 @@ Changes to the [ISY-994i](https://www.universal-devices.com/product/isy994i/), s
 
 This plugin will **auto discover** `nodes` linked to the hub and that are **supported**.
 
-To configure if installing with [Homebridge Config UI X](https://github.com/oznu/homebridge-config-ui-x), a setup guide should appear on install. Follow the GUI instructions. For further customization of the advanced features, refer to the parameters definition below.
+If installed with [Homebridge Config UI X](https://github.com/oznu/homebridge-config-ui-x), this plugin can be configured by the GUI.
 
 If configuring manually, below follows a **minimal** configuration sample with the required parameters only:
 
@@ -69,6 +69,8 @@ If configuring manually, below follows a **minimal** configuration sample with t
 
 This minimal configuration is enough for the plugin to work and to auto discover `nodes`
 
+For optional and advanced features, refer to the parameters definition below, and the subsequent explanation of all features.
+
 ### Parameters Definition
 
 | **Parameter** | **Required** | **Data Type** | **Default** | **Details** |
@@ -78,13 +80,13 @@ This minimal configuration is enough for the plugin to work and to auto discover
 | hostname | yes | string |   | Hostname or IP address of ISY-994i hub. |
 | login | yes | string |   | Login for the ISY-994i hub. |
 | password | yes | string |   | Password for the ISY-994i hub. |
-| hidden_nodes | no | list of strings |   | Used to specify which devices or scenes should<br/>be hidden from auto discovery. List of addresses<br/>as strings, even if address is numeric. |
-| stateless_scenes | no | list of strings |   | Used to specify which scenes become **Stateless<br/>Programable Switches** in HomeKit. If not specified, scene will default to regular **Switch**. List of<br/>addresses as strings, even if address is numeric. |
-| on_level_scenes | no | list of dicts |   | Used to specify the on level of a scene. Default for<br/>all scenes is 255 (100%). Only change if on level is<br/>different. List of dicts, each dict with keys:<br/>> `address` - string, even if address is numeric.<br/>> `on_level` - numeric (number from 0-255). |
-| refresh_interval | no | integer | 60 | Time in seconds for the plugin to fetch all `nodes`<br/>via REST API.<br/>(minimum: 1) |
-| reconnect_interval | no | integer | 30 | Time in seconds for the plugin to attempt a<br/>reconnect if the WebSocket terminates.<br/>(minimum: 10) |
-| heartbeat_interval | no | integer | 30 | Time in seconds for a heartbeat to be received<br/>from the WebSocket. If no heartbeat is received,<br/>plugin will attempt a reconnect.<br/>(minimum: 25) |
-| rest_timeout | no | integer | 10 | Time in seconds for REST requests to timeout.<br/>(minimum: 5) |
+| hidden_nodes | no | list of strings |   | Used to specify which devices or scenes should<br/>be hidden from auto discovery. List of addresses<br/>as **strings**, even if address is numeric. |
+| stateless_scenes | no | list of strings |   | Used to specify which scenes become **Stateless<br/>Programable Switches** in HomeKit. If not specified, scene will default to regular **Switch**. List of<br/>addresses as **strings**, even if address is numeric. |
+| on_level_scenes | no | list of dicts |   | Used to specify the on level of a scene. Default `ON`<br/>level for all scenes is `255 (or 100%)`. Only change<br/>if on level is different. List of dicts, each dict with keys:<br/>> `address` - **string**, even if address is numeric.<br/>> `on_level` - numeric (number from 0-255). |
+| refresh_interval | no | integer | 60 | Time in seconds for the plugin to fetch all `nodes`<br/>via REST API.<br/>*(minimum: 1)* |
+| reconnect_interval | no | integer | 30 | Time in seconds for the plugin to attempt a<br/>reconnect if the WebSocket terminates.<br/>*(minimum: 10)* |
+| heartbeat_interval | no | integer | 30 | Time in seconds for a heartbeat to be received<br/>from the WebSocket. If no heartbeat is received,<br/>plugin will attempt a reconnect.<br/>*(minimum: 25)* |
+| rest_timeout | no | integer | 10 | Time in seconds for REST requests to timeout.<br/>*(minimum: 5)* |
 
 ### Full Example
 
@@ -127,33 +129,33 @@ This minimal configuration is enough for the plugin to work and to auto discover
 ### Hidden Nodes
 
 Hides `nodes` from the auto discovery. If a `node` already exists, and then is added here, it will be removed (and if removed here, will be added by auto discovery).
-Requires changing the parameter `hidden_nodes`, which expects a list of `node` addresses as strings.
+Requires changing the parameter `hidden_nodes`, which expects a list of `node` addresses as **strings**.
 
 ### Stateless Scenes
 
-Allows `nodes` that are **Insteon Scenes** to act as **Stateless Programable Switches** in HomeKit. The main use of this feature is in combination with **Insteon KeyPads**. Although not directly supported, if linked to a `stateless scene`, it will act as a button in HomeKit. This button enables two actions (buttons presses), the first one for ON and the second one for OFF. These actions can than be configured to control HomeKit in various ways. Requires changing the parameter `stateless_scenes`, which expects a list of `scene node` addresses as strings.
+Allows `nodes` that are **Insteon Scenes** to act as **Stateless Programable Switches** in HomeKit. The main use of this feature is in combination with **Insteon KeyPads**. Although not directly supported, if an **Insteon Keypad** is linked to a `Stateless Scene`, it will act as a button in HomeKit. The accessory comes with two actions (buttons presses), the first one for `ON` and the second one for `OFF`. These actions can than be configured to control HomeKit in various ways. Requires changing the parameter `stateless_scenes`, which expects a list of `node` addresses as **strings**. `node` should be an **Insteon Scene**.
 
 ### Scene ON Level
 
-Allows `nodes` that are **Insteon Scenes** to adjust their ON level. By default, all `scene node` will consider ON the value 255 (100% in Insteon). This value can be changed here if a Scene is considered ON on a level different than 255. If multiple devices in a scene dim to different levels, the ON level for the scene should the average of the device's ON level. Requires changing the parameter `on_level_scenes`, which expects a list of dicts, each dict composed of two keys: `address` and `on_level`. `address` is a `scene node` addresse as string and `on_level` is an integer between 0 and 255.
+Allows `nodes` that are **Insteon Scenes** to adjust their `ON` level. By default, all **Scene** `nodes` will consider `ON` the value `255` (100% in Insteon). This value can be changed here if a **Scene** is considered `ON` on a level different than `255`. If multiple devices in a **Scene** dim to different levels, the `ON` level for that **Scene** should the average of the device's `ON` level. Requires changing the parameter `on_level_scenes`, which expects a list of dicts, each dict composed of two keys: `address` and `on_level`. `address` is a `scene node` addresse as **string** and `on_level` is an **integer** between `0` and `255`.
 
 ## Advances Settings
 
 ### Refresh Interval
 
-Time in seconds for the plugin to refresh the devices via REST API. This is what enables the auto discovery. If WebSocket is closed, it is disabled, and renabled when open. Minimum of 1 second.
+Time in **seconds** for the plugin to refresh the devices via REST API. This is what enables the auto discovery. If the WebSocket is closed, it is disabled. And when open renabled. Minimum of **1 second**.
 
 ### Reconnect Interval
 
-Time in seconds for the plugin to attemp a reconnect of the WebSocket if it closes or exits with an error. Minimum of 10 seconds.
+Time in **seconds** for the plugin to attempt a reconnect of the WebSocket if it closes or exits with an error. Minimum of **10 seconds**.
 
 ### Heartbeat Timeout
 
-Time in seconds for a heartbeat to be received from the WebSocket when it is open. If the timeout expires, a reconnect is imediatelly attempted. This is paired to what is emitted by the hub (wiht some margin), change with caution. Minimum of 25 seconds.
+Time in seconds for a heartbeat to be received from the WebSocket when it is open. If the timeout expires, a reconnect is imediatelly attempted. This is paired to what is emitted by the hub (wiht some margin), change with caution. Minimum of **25 seconds**.
 
 ### REST Timeout
 
-Time in seconds for REST API requests to timeout. Minimum of 5 seconds.
+Time in seconds for REST API requests to timeout. Minimum of **5 seconds**.
 
 ## License
 
