@@ -79,7 +79,7 @@ This minimal configuration is enough for the plugin to work and to auto discover
 | login | yes | string |   | Login for the ISY-994i hub. |
 | password | yes | string |   | Password for the ISY-994i hub. |
 | hidden_nodes | no | list of strings |   | Used to specify which devices or scenes should<br/>be hidden from auto discovery. List of addresses<br/>as strings, even if address is numeric. |
-| stateless_scenes | no | list of strings |   | Used to specify which scenes become **Stateless<br/>Programable Switches** in HomeKit. If not specified, scene will default to regular **Switch**.<br/>List of addresses as strings, even if address is<br/>numeric. |
+| stateless_scenes | no | list of strings |   | Used to specify which scenes become **Stateless<br/>Programable Switches** in HomeKit. If not specified, scene will default to regular **Switch**. List of<br/>addresses as strings, even if address is numeric. |
 | on_level_scenes | no | list of dicts |   | Used to specify the on level of a scene. Default for<br/>all scenes is 255 (100%). Only change if on level is<br/>different. List of dicts, each dict with keys:<br/>> `address` - string, even if address is numeric.<br/>> `on_level` - numeric (number from 0-255). |
 | refresh_interval | no | integer | 60 | Time in seconds for the plugin to fetch all `nodes`<br/>via REST API.<br/>(minimum: 1) |
 | reconnect_interval | no | integer | 30 | Time in seconds for the plugin to attempt a<br/>reconnect if the WebSocket terminates.<br/>(minimum: 10) |
