@@ -1,9 +1,9 @@
 
 import { PlatformConfig } from 'homebridge';
 
+import { ISYHubPlatform } from './platform';
 import { ISYConfig, Node, Scene } from './types';
 import { DEFAULT_REFRESH_INTERVAL, DEFAULT_RECONNECT_INTERVAL, DEFAULT_HEARTBEAT_TIMEOUT, DEFAULT_REST_TIMEOUT } from './settings';
-import { ISYHubPlatform } from './platform';
 
 
 export function verifyConfig(config: ISYConfig|PlatformConfig) {
