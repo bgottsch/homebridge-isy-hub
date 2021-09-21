@@ -22,21 +22,22 @@ Changes to the [ISY-994i](https://www.universal-devices.com/product/isy994i/) `n
 
 | ISY-994i Node                                                         | HomeKit Accessory                      | Description                                                                                                                                                              |
 |-----------------------------------------------------------------------|----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Insteon Micro Dimmer](https://shelly.cloud/shelly1-open-source/)     | Lightbulb (dimmable)                   | Simple lightbulb with brightness                                                                                                                                         |
-| [Insteon Micro Open/Close](https://shelly.cloud/shelly1-open-source/) | Window Covering                        | Simple window covering with level                                                                                                                                        |
-| [Insteon Scenes](https://shelly.cloud/shelly1-open-source/)           | Switch (default) or Stateless Programable Switch | If configured in the optional setting `stateless_scenes`, a scene will become a Stateless Programable Switch accessory, allowing for automation in HomeKit. If left untouched, scenes will default to a regular Switch accessory|
+| [Insteon Micro Dimmer](https://www.insteon.com/dimmer-micro-module)     | Lightbulb (dimmable)                   | Simple lightbulb with brightness                                                                                                                                         |
+| [Insteon Micro Open/Close](https://www.insteon.com/open-close-micro-module) | Window Covering                        | Simple window covering with level                                                                                                                                        |
+| [Insteon Scenes](https://wiki.universal-devices.com/index.php?title=ISY-99i/ISY-26_INSTEON:Scene)           | Switch (default) or Stateless Programable Switch | If configured in the optional setting `stateless_scenes`, a scene will become a Stateless Programable Switch accessory, allowing for automation in HomeKit. If left untouched, scenes will default to a regular Switch accessory|
 
 ## Supported Hubs
 
 | Hub Model                                                      | Supported firmware version(s) |
 |----------------------------------------------------------------|-------------------------------|
-| [ISY-994i](https://www.universal-devices.com/product/isy994i/) |                               |
+| [ISY-994i](https://www.universal-devices.com/product/isy994i/) | 5.0.0 and up |
 
 ## Installation
 
 1. Install Homebridge by following
    [the instructions](https://github.com/homebridge/homebridge/wiki).
 2. After installing,
+
 - if using [Homebridge Config UI X](https://github.com/oznu/homebridge-config-ui-x):
     1. Search for `homebridge-isy-hub` in the plugin page and install it.
     2. Follow on-screen instructions on how to setup.
