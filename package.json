@@ -1,5 +1,4 @@
 {
-	"private": true,
 	"displayName": "ISY Hub",
 	"name": "homebridge-isy-hub",
 	"version": "1.0.0-beta.1",
