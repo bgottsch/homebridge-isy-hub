@@ -4,11 +4,11 @@
 [![npm-version](https://badgen.net/npm/v/homebridge-isy-hub)](https://www.npmjs.com/package/homebridge-isy-hub)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
 
-`homebridge-isy-hub` is a [Homebridge](https://homebridge.io) plugin that enables HomeKit support for [Insteon](https://www.insteon.com/) devices and scenes controlled by the [ISY-994i](https://www.universal-devices.com/product/isy994i/) hub.
+**homebridge-isy-hub** is a [Homebridge](https://homebridge.io) plugin that enables HomeKit support for [Insteon](https://www.insteon.com/) devices and scenes controlled by the [ISY-994i](https://www.universal-devices.com/product/isy994i/) hub.
 
 This plugin finds all nodes linked to the [ISY-994i](https://www.universal-devices.com/product/isy994i/) hub and creates the corresponding HomeKit accessory. Nodes are all **Insteon scenes** and **Insteon devices** paired to the hub, that are supported by this plugin (see table below).
 
-Changes to the [ISY-994i](https://www.universal-devices.com/product/isy994i/), such as adding, updating or removing nodes, replicate automatically to HomeKit. Further more, optional features such as `Stateless Scenes` can turn **Inteon KeyPads** into **Stateless Programable Switches**.
+Changes to the [ISY-994i](https://www.universal-devices.com/product/isy994i/), such as adding, updating or removing nodes, replicate automatically to HomeKit. Further more, optional features such as **Stateless Scenes** can turn **Inteon KeyPads** into **Stateless Programable Switches**.
 
 ## Key Points
 
@@ -25,7 +25,7 @@ Changes to the [ISY-994i](https://www.universal-devices.com/product/isy994i/), s
 |---|---|---|
 | [Insteon Micro Dimmer](https://www.insteon.com/dimmer-micro-module) | Lightbulb (dimmable) | Simple lightbulb with brightness. |
 | [Insteon Micro Open/Close](https://www.insteon.com/open-close-micro-module) | Window Covering | Simple window covering with level. |
-| [Insteon Scenes](https://wiki.universal-devices.com/index.php?title=ISY-99i/ISY-26_INSTEON:Scene) | Switch (default) or Stateless Programable Switch | If configured in the optional setting<br/>`Stateless Scenes`, a node will become<br/>a **Stateless Programable Switch** accessory,<br/>allowing for automation in HomeKit. If left<br/>untouched, nodes will default to a regular **Switch** accessory. |
+| [Insteon Scenes](https://wiki.universal-devices.com/index.php?title=ISY-99i/ISY-26_INSTEON:Scene) | Switch (default) or Stateless Programable Switch | If configured in the optional setting<br/>**Stateless Scenes**, a node will become<br/>a **Stateless Programable Switch** accessory,<br/>allowing for automation in HomeKit. If left<br/>untouched, nodes will default to a regular **Switch** accessory. |
 
 ## Supported Hubs
 
@@ -42,7 +42,7 @@ Changes to the [ISY-994i](https://www.universal-devices.com/product/isy994i/), s
 - if using [Homebridge Config UI X](https://github.com/oznu/homebridge-config-ui-x):
     1. Search for `isy hub` in the plugin page and install it.
     2. Follow on-screen instructions on how to setup.
-    3. (optional) configure advanced options in the plugin page.
+    3. (optional) configure extra features of the plugin.
 - if setup is manual:
     1. Run `npm install -g homebridge-isy-hub` to install it.
     2. Follow the instrcutions below to out find how to configure your `config.json`.
@@ -51,9 +51,9 @@ Changes to the [ISY-994i](https://www.universal-devices.com/product/isy994i/), s
 
 This plugin will auto discover nodes linked to the hub and that are supported.
 
-If installed with [Homebridge Config UI X](https://github.com/oznu/homebridge-config-ui-x), this plugin can be configured by the GUI.
+If installed with [Homebridge Config UI X](https://github.com/oznu/homebridge-config-ui-x), this plugin can be configured using the GUI.
 
-If configuring manually, below follows a **minimal** configuration sample with the required parameters only:
+If configuring manually, below follows a minimal configuration sample with the required parameters only:
 
 ```json
 "platforms": [
@@ -133,7 +133,7 @@ Requires changing the parameter `hidden_nodes`, which expects a list of node add
 
 ### Stateless Scenes
 
-Allows nodes that are **Insteon Scenes** to act as **Stateless Programable Switches** in HomeKit. The main use of this feature is in combination with **Insteon KeyPads**. Although not directly supported, if an **Insteon Keypad** is linked to a `Stateless Scene`, it will act as a button in HomeKit. The accessory comes with two actions (buttons presses), the first one for `ON` and the second one for `OFF`. These actions can than be configured to control HomeKit in various ways. Requires changing the parameter `stateless_scenes`, which expects a list of node addresses as **strings**.
+Allows nodes that are **Insteon Scenes** to act as **Stateless Programable Switches** in HomeKit. The main use of this feature is in combination with **Insteon KeyPads**. Although not directly supported, if an **Insteon Keypad** is linked to a Stateless Scene, it will act as a button in HomeKit. The accessory comes with two actions (buttons presses), the first one for `ON` and the second one for `OFF`. These actions can than be configured to control HomeKit in various ways. Requires changing the parameter `stateless_scenes`, which expects a list of node addresses as **strings**.
 
 ### Scene ON Level
 
