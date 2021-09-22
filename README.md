@@ -156,6 +156,7 @@ Time in **seconds** for the plugin to attempt a reconnect of the WebSocket if it
 
 Time in seconds for a heartbeat to be received from the WebSocket when it is open. If the timeout expires, a reconnect is imediatelly attempted. This is paired to what is emitted by the hub (wiht some margin), change with caution. Minimum of **25 seconds**.
 
+
 ### REST Timeout
 
 Time in seconds for REST API requests to timeout. Minimum of **5 seconds**.
