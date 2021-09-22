@@ -4,6 +4,8 @@
 [![npm-version](https://badgen.net/npm/v/homebridge-isy-hub)](https://www.npmjs.com/package/homebridge-isy-hub)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
 
+**THIS BRANCH IS STILL IN BETA**
+
 **homebridge-isy-hub** is a [Homebridge](https://homebridge.io) plugin that enables HomeKit support for [Insteon](https://www.insteon.com/) devices and scenes controlled by the [ISY-994i](https://www.universal-devices.com/product/isy994i/) hub.
 
 This plugin finds all nodes linked to the [ISY-994i](https://www.universal-devices.com/product/isy994i/) hub and creates the corresponding HomeKit accessory. Nodes are all **Insteon scenes** and **Insteon devices** paired to the hub, that are supported by this plugin (see table below).
