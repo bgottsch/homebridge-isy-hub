@@ -6,10 +6,10 @@
 	"license": "Apache-2.0",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/bgottsch/homebridge-isyhub.git"
+		"url": "git://github.com/bgottsch/homebridge-isy-hub.git"
 	},
 	"bugs": {
-		"url": "https://github.com/bgottsch/homebridge-isyhub/issues"
+		"url": "https://github.com/bgottsch/homebridge-isy-hub/issues"
 	},
 	"engines": {
 		"node": ">=10.17.0",
