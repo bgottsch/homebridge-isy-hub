@@ -160,6 +160,12 @@ Time in seconds for a heartbeat to be received from the WebSocket when it is ope
 
 Time in seconds for REST API requests to timeout. Minimum of **5 seconds**.
 
+## Development
+
+This plugin was based on the [homebridge-plugin-template](https://github.com/homebridge/homebridge-plugin-template) repo, thus allowing live code changes. To setup, clone this repo, and configure homebridge to start with the option `-P <PATH_TO-homebridge-isy-hub`. Further more, to use live code, run `npm run watch`. Sudo might be required.
+
+For further instructions on the Homebridge API, refer to documentation.
+
 ## License
 
 Apache 2.0
