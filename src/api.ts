@@ -68,11 +68,11 @@ export class ISYHubApi extends EventEmitter {
 		this.wsBlockUpdates = true;
 		this.platform.log.debug('Fetching devices...');
 		try {
-			console.log('fetching');
+			this.platform.log.info('fetching');
 			const res_nodes = await this.ax.get('/rest/nodes');
-			console.log('fetched nodes');
+			this.platform.log.info('fetched nodes');
 			const res_status = await this.ax.get('/rest/status');
-			console.log('fetched status');
+			this.platform.log.info('fetched status');
 			
 			const newObjects: (Node|Scene)[] = [];
 
