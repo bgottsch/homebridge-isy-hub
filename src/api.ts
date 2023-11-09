@@ -2,7 +2,7 @@
 import EventEmitter from 'events';
 import axios, { AxiosInstance } from 'axios';
 import WebSocket, { CloseEvent, ErrorEvent, MessageEvent, OpenEvent } from 'ws';
-import parser from 'fast-xml-parser';
+import { XMLParser, XMLValidator } from 'fast-xml-parser';
 
 import { ISYHubPlatform } from './platform';
 import { AccessoryType, Node, Scene, SceneMember } from './types';
@@ -73,7 +73,7 @@ export class ISYHubApi extends EventEmitter {
 			
 			const newObjects: (Node|Scene)[] = [];
 
-			if (parser.validate(res_nodes.data) === true && parser.validate(res_status.data) === true) {
+			if (XMLValidator.validate(res_nodes.data) === true && XMLValidator.validate(res_status.data) === true) {
 
 				const xml_nodes = this.parseXml(res_nodes.data);
 				const xml_status = this.parseXml(res_status.data);
@@ -242,7 +242,7 @@ export class ISYHubApi extends EventEmitter {
 	private wsMessage(event: MessageEvent) {
 
 		const xmlString: string = event.data.toString();
-		if (parser.validate(xmlString) !== true) { 
+		if (XMLValidator.validate(xmlString) !== true) { 
 			this.platform.log.warn('Invalid XML received on Web Socket!');
 			this.platform.log.warn(xmlString);
 			return;
@@ -302,14 +302,15 @@ export class ISYHubApi extends EventEmitter {
 
 	private parseXml(data: string) {
 		try {
-			return parser.parse(data, {
-				attrNodeName: '#attr',
+			const parser = new XMLParser({
+				attributesGroupName: '#attr',
 				textNodeName: '#text',
 				attributeNamePrefix: '',
-				arrayMode: false,
+				isArray: () => false,
 				ignoreAttributes: false,
 				parseAttributeValue: true,
-			}, true);
+			});
+			return parser.parse(data, true);
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				this.platform.log.error(error.message);
