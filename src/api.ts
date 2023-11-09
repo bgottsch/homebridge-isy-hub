@@ -69,10 +69,10 @@ export class ISYHubApi extends EventEmitter {
 		this.platform.log.debug('Fetching devices...');
 		try {
 			this.platform.log.info('fetching');
-			const res_nodes = await this.ax.get('/rest/nodes');
-			this.platform.log.info('fetched nodes');
 			const res_status = await this.ax.get('/rest/status');
 			this.platform.log.info('fetched status');
+			const res_nodes = await this.ax.get('/rest/nodes');
+			this.platform.log.info('fetched nodes');
 			
 			const newObjects: (Node|Scene)[] = [];
 
