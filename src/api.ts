@@ -109,7 +109,7 @@ export class ISYHubApi extends EventEmitter {
 			}
 			this.updateObjects(newObjects);
 		} catch (error) {
-			this.platform.log.error(error);
+			this.platform.log.error(`${(error as Error)}`);
 			this.handleError(error);
 		}
 		this.wsBlockUpdates = false;
