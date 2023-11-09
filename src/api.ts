@@ -232,7 +232,7 @@ export class ISYHubApi extends EventEmitter {
 						break;
 					}
 					this.platform.log.warn('Unknown error, termintating socket');
-					this.platform.log.debug(event.message);
+					this.platform.log.warn(event.error.code, event.error.message, event.error.stack);
 					this.terminateWebSocket(false);
 					break;
 			}
