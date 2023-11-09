@@ -142,14 +142,14 @@ export class ISYHubApi extends EventEmitter {
 
 	private startWebSocket() {
 		const auth = `Basic ${Buffer.from(`${this.platform.config.login!}:${this.platform.config.password!}`).toString('base64')}`;
-		this.ws = new WebSocket(`wss://${this.platform.config.hostname!}/rest/subscribe/`, 'ISYSUB', {
+		this.ws = new WebSocket(`ws://${this.platform.config.hostname!}/rest/subscribe/`, 'ISYSUB', {
 			protocolVersion: 13,
 			origin: 'com.universal-devices.websockets.isy',
 			headers : {
 				'Authorization': auth,
 			},
-			rejectUnauthorized: false,
-			checkServerIdentity: () => false,
+			// rejectUnauthorized: false,
+			// checkServerIdentity: () => false,
 		});
 
 		this.ws.onopen = this.wsOpen.bind(this);
