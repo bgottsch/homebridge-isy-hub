@@ -30,6 +30,12 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: npm publish
+      - name: Publish to npm
+        run: |
+          if [[ $GITHUB_REF == refs/heads/main ]]; then
+            npm publish
+          elif [[ $GITHUB_REF == refs/heads/beta ]]; then
+            npm publish --tag beta
+          fi
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
