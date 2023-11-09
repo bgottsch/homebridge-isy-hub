@@ -149,6 +149,7 @@ export class ISYHubApi extends EventEmitter {
 				'Authorization': auth,
 			},
 			rejectUnauthorized: false,
+			checkServerIdentity: () => false,
 		});
 
 		this.ws.onopen = this.wsOpen.bind(this);

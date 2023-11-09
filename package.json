@@ -1,7 +1,7 @@
 {
 	"displayName": "ISY Hub",
 	"name": "homebridge-isy-hub",
-	"version": "1.0.2",
+	"version": "1.0.3-beta.1",
 	"description": "ISY-994i plugin for homebridge: https://github.com/nfarina/homebridge",
 	"license": "Apache-2.0",
 	"repository": {
